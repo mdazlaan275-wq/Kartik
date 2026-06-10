@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#000000">
+    <title>Kartik</title>
+    <link rel="icon" href="kartik.png">
+</head>
+<body>
+    <!-- Start Screen Overlay -->
+    <div id="startScreen" class="start-overlay">
+        <div class="start-container">
+            <div class="start-content">
+                <img src="kartik.png" alt="Kartik Logo" class="start-logo">
+                <h1 class="start-title">Kartik</h1>
+                <button id="startBtn" class="start-button">Start</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logo Screen Overlay -->
+    <div id="logoScreen" class="logo-overlay hidden">
+        <div class="logo-container">
+            <div class="typing-section">
+                <img src="kartik.png" alt="Kartik Logo" class="full-logo">
+                <h2 class="logo-text" id="typingText"></h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="main-content hidden">
+        <div class="header">
+            <div class="header-content">
+                <img src="kartik.png" alt="Kartik Logo" class="header-logo">
+                <h1 class="header-title">Kartik</h1>
+            </div>
+        </div>
+        
+        <div class="cards-container">
+            <div class="card" data-funny="Endless Shorts Scroller 📱">
+                <h2 class="card-title">Shorts watcher</h2>
+                <p class="card-subtitle">Professional thumb workout</p>
+            </div>
+            <div class="card" data-funny="Food Disappear-er 🍕">
+                <h2 class="card-title">Eater</h2>
+                <p class="card-subtitle">Makes food vanish instantly</p>
+            </div>
+            <div class="card" data-funny="Chaos Generator ⚡">
+                <h2 class="card-title">Mad</h2>
+                <p class="card-subtitle">Professional rage artist</p>
+            </div>
+            <div class="card" data-funny="Party Genius 🎊">
+                <h2 class="card-title">Party Animal</h2>
+                <p class="card-subtitle">Never misses the vibe</p>
+            </div>
+            <div class="card" data-funny="Pillow lover 😴">
+                <h2 class="card-title">Sleep Master</h2>
+                <p class="card-subtitle">Expert nap architect</p>
+            </div>
+            <div class="card" data-funny="Controller Destroyer 🎮">
+                <h2 class="card-title">Gamer</h2>
+                <p class="card-subtitle">Professional button masher</p>
+            </div>
+            <div class="card" data-funny="Kitchen Disaster 🔥">
+                <h2 class="card-title">Chef</h2>
+                <p class="card-subtitle">Turns food to charcoal</p>
+            </div>
+            <div class="card" data-funny="The Escape Artist 🏃">
+                <h2 class="card-title">Runner</h2>
+                <p class="card-subtitle">Runs from reality</p>
+            </div>
+            <div class="card" data-funny="Two Left Feet 💃">
+                <h2 class="card-title">Dancer</h2>
+                <p class="card-subtitle">Rhythm? Don't know her</p>
+            </div>
+            <div class="card" data-funny="Talk Show Host 🗣️">
+                <h2 class="card-title">Talker</h2>
+                <p class="card-subtitle">Can talk for 10 hours</p>
+            </div>
+            <div class="card" data-funny="Dream Architect 💭">
+                <h2 class="card-title">Daydreamer</h2>
+                <p class="card-subtitle">Lives in his own world</p>
+            </div>
+            <div class="card" data-funny="Legendary Prankster 😜">
+                <h2 class="card-title">Prankster</h2>
+                <p class="card-subtitle">Master of bad jokes</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let clickCount = 0;
+        let cardClickCounts = {};
+
+        // Prevent default mobile behaviors
+        document.addEventListener('touchmove', function(e) {
+            if (e.target.closest('.card')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Word by word typing effect
+        function typeWordByWord(text, element, delay) {
+            element.textContent = '';
+            let charIndex = 0;
+
+            function addChar() {
+                if (charIndex < text.length) {
+                    element.textContent += text[charIndex];
+                    charIndex++;
+                    setTimeout(addChar, delay);
+                }
+            }
+
+            addChar();
+        }
+
+        // Start button functionality
+        const startBtn = document.getElementById('startBtn');
+        const startScreen = document.getElementById('startScreen');
+        const logoScreen = document.getElementById('logoScreen');
+        const mainContent = document.getElementById('mainContent');
+        const startLogo = document.querySelector('.start-logo');
+        const fullLogo = document.querySelector('.full-logo');
+        const typingText = document.getElementById('typingText');
+        let isAnimating = false;
+
+        // Easter egg: Multiple clicks on start button
+        startBtn.addEventListener('click', function() {
+            if (isAnimating) return; // Prevent multiple clicks during animation
+            isAnimating = true;
+            clickCount++;
+            
+            if (clickCount === 3) {
+                alert('🎉 Hey! This is a website for Kartik! Get to the content already! 😂');
+                clickCount = 0;
+            }
+
+            // Request fullscreen
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen().catch(err => {
+                    console.log('Fullscreen request denied:', err);
+                });
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            } else if (elem.mozRequestFullScreen) {
+                elem.mozRequestFullScreen();
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+            }
+
+            // Hide start screen and show logo screen
+            startScreen.classList.add('hidden');
+            logoScreen.classList.remove('hidden');
+            
+            // Animate logo fade-in
+            setTimeout(() => {
+                fullLogo.classList.add('fade-in');
+            }, 100);
+            
+            // After logo fade completes (1.5s), start typing animation
+            setTimeout(() => {
+                typeWordByWord('Kartik', typingText, 500);
+            }, 1500);
+            
+            // After typing completes (2s), show main content and fade it in
+            setTimeout(() => {
+                mainContent.classList.remove('hidden');
+                mainContent.classList.add('fade-in');
+                
+                // Hide logo screen after main content fade completes
+                setTimeout(() => {
+                    logoScreen.classList.add('hidden');
+                    typingText.classList.remove('typing');
+                    typingText.textContent = '';
+                    isAnimating = false;
+                }, 1500);
+            }, 3500);
+        });
+
+        // Touch feedback for start button
+        startBtn.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.95)';
+        });
+
+        startBtn.addEventListener('touchend', function() {
+            this.style.transform = 'scale(1)';
+        });
+
+        // Card interactions optimized for mobile
+        const cards = document.querySelectorAll('.card');
+        cards.forEach((card, index) => {
+            cardClickCounts[index] = 0;
+
+            // Click interaction with animations
+            card.addEventListener('click', function() {
+                cardClickCounts[index]++;
+                
+                // Spin animation
+                this.style.animation = 'spin 0.6s ease-out';
+                setTimeout(() => {
+                    this.style.animation = 'none';
+                }, 600);
+
+                // Funny messages on different clicks
+                if (cardClickCounts[index] === 1) {
+                    this.querySelector('.card-title').textContent = this.getAttribute('data-funny');
+                } else if (cardClickCounts[index] === 2) {
+                    alert('You found Kartik\'s secret! 🔥');
+                    this.querySelector('.card-title').textContent = this.getAttribute('data-funny');
+                } else if (cardClickCounts[index] === 3) {
+                    const funnyTexts = ['TOO MUCH! 😂', 'STOP IT! 🤣', 'OKAY, YOU WIN! 🏆'];
+                    this.querySelector('.card-title').textContent = funnyTexts[Math.floor(Math.random() * funnyTexts.length)];
+                    cardClickCounts[index] = 0;
+                }
+            });
+
+            // Touch visual feedback
+            card.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.95)';
+            });
+
+            card.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Handle fullscreen change
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+        document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+        function handleFullscreenChange() {
+            // Optional: handle fullscreen exit
+        }
+
+        // Prevent pinch zoom
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+
+        // Random title message
+        const originalTitle = document.title;
+        const titles = ['Kartik 🎉', 'Kartik 😂', 'Kartik ⚡', 'Kartik 🔥', 'Kartik 🎭'];
+        setInterval(() => {
+            if (!document.hidden) {
+                document.title = titles[Math.floor(Math.random() * titles.length)];
+            }
+        }, 3000);
+
+        // Restore title on tab focus
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                document.title = originalTitle;
+            }
+        });
+
+        // Fun console message
+        console.log('🎉 Welcome to Kartik\'s funky website! 🎉');
+        console.log('Click cards to reveal their funny titles! 😂');
+        console.log('Kartik is LEGENDARY! 💪');
+    </script>
+
+</body>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html, body {
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    body {
+        background: linear-gradient(
+            135deg,
+            #0a0e27 0%,
+            #1a1a4a 25%,
+            #2d1b69 50%,
+            #1e3a5f 75%,
+            #0f2744 100%
+        );
+        background-attachment: fixed;
+        color: white;
+    }
+
+    /* Start Screen Styles */
+    .start-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            135deg,
+            #0a0e27 0%,
+            #1a1a4a 25%,
+            #2d1b69 50%,
+            #1e3a5f 75%,
+            #0f2744 100%
+        );
+        background-attachment: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        transition: opacity 0.3s ease;
+    }
+
+    .start-overlay.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .start-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .start-content {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .start-logo {
+        height: 120px;
+        width: 120px;
+        border-radius: 50%;
+        box-shadow: 0 8px 25px rgba(0, 255, 255, 0.8);
+        animation: float 3s ease-in-out infinite;
+    }
+
+    /* Logo Screen Styles */
+    .logo-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            135deg,
+            #0a0e27 0%,
+            #1a1a4a 25%,
+            #2d1b69 50%,
+            #1e3a5f 75%,
+            #0f2744 100%
+        );
+        background-attachment: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1001;
+        transition: opacity 0.3s ease;
+    }
+
+    .logo-overlay.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .logo-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .typing-section {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .full-logo {
+        height: 200px;
+        width: 200px;
+        border-radius: 50%;
+        box-shadow: 0 8px 40px rgba(0, 255, 255, 0.9);
+        opacity: 0;
+        flex-shrink: 0;
+    }
+
+    .full-logo.fade-in {
+        animation: fadeIn 1.5s ease-in forwards;
+    }
+
+    .logo-text {
+        font-size: 48px;
+        color: #ffffff;
+        text-shadow:
+            1px 1px 4px rgb(217, 244, 244),
+            2px 2px 4px rgb(177, 255, 255),
+            3px 3px 4px rgb(114, 248, 248),
+            4px 4px 4px rgb(0, 255, 255);
+        letter-spacing: 2px;
+        white-space: nowrap;
+        font-weight: 600;
+        min-height: 60px;
+    }
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotateY(0deg) scale(1);
+        }
+        50% {
+            transform: rotateY(180deg) scale(1.05);
+        }
+        100% {
+            transform: rotateY(360deg) scale(1);
+        }
+    }
+
+    @keyframes rainbow-spin {
+        0% {
+            filter: hue-rotate(0deg);
+        }
+        100% {
+            filter: hue-rotate(360deg);
+        }
+    }
+
+    .start-title {
+        font-size: clamp(32px, 10vw, 60px);
+        color: #ffffff;
+        text-shadow:
+            1px 1px 4px rgb(217, 244, 244),
+            2px 2px 4px rgb(177, 255, 255),
+            3px 3px 4px rgb(114, 248, 248),
+            4px 4px 4px rgb(0, 255, 255);
+        letter-spacing: 2px;
+    }
+
+    .start-button {
+        padding: 15px 50px;
+        font-size: clamp(16px, 5vw, 24px);
+        background: linear-gradient(135deg, #00ffff, #00a2ff);
+        color: #000;
+        border: none;
+        border-radius: 50px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 8px 25px rgba(0, 255, 255, 0.6);
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .start-button:active {
+        transform: scale(0.95);
+        box-shadow: 0 4px 15px rgba(0, 255, 255, 0.4);
+    }
+
+    @media (hover: hover) {
+        .start-button:hover {
+            box-shadow: 0 12px 35px rgba(0, 255, 255, 0.8);
+            transform: translateY(-2px);
+            animation: pulse 0.6s ease-out;
+        }
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            box-shadow: 0 12px 35px rgba(0, 255, 255, 0.8);
+        }
+        50% {
+            box-shadow: 0 12px 35px rgba(0, 255, 255, 1);
+        }
+    }
+
+    /* Main Content */
+    .main-content {
+        width: 100%;
+        min-height: 100vh;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .main-content.fade-in {
+        animation: fadeIn 1.5s ease-in forwards;
+    }
+
+    .main-content.hidden {
+        display: none;
+        opacity: 0;
+    }
+
+    .header {
+        width: 100%;
+        padding: 15px 10px;
+    }
+
+    .header-content {
+        border: 2px solid rgb(1, 140, 140);
+        background: rgba(0, 255, 255, 0.251);
+        padding: 15px;
+        box-shadow: 0 4px 15px cyan;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: clamp(10px, 5vw, 30px);
+        border-radius: 12px;
+        flex-wrap: wrap;
+    }
+
+    .header-logo {
+        height: clamp(60px, 12vw, 100px);
+        width: clamp(60px, 12vw, 100px);
+        border-radius: 50%;
+        box-shadow: 0px 4px 15px cyan;
+        flex-shrink: 0;
+    }
+
+    .header-title {
+        color: #ffffff;
+        font-size: clamp(24px, 8vw, 40px);
+        text-shadow:
+            1px 1px 4px rgb(217, 244, 244),
+            2px 2px 4px rgb(177, 255, 255),
+            3px 3px 4px rgb(114, 248, 248),
+            4px 4px 4px rgb(0, 255, 255);
+        letter-spacing: 1px;
+    }
+
+    /* Cards Container */
+    .cards-container {
+        display: flex;
+        justify-content: center;
+        gap: clamp(10px, 3vw, 20px);
+        margin: clamp(20px, 5vw, 40px) auto;
+        flex-wrap: wrap;
+        max-width: 1200px;
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .card {
+        background: rgba(0, 255, 255, 0.08);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1.5px solid rgba(0, 255, 255, 0.25);
+        border-radius: 20px;
+        padding: clamp(15px, 4vw, 20px);
+        width: clamp(150px, 80vw, 280px);
+        max-width: 100%;
+        box-shadow: 
+            0 8px 32px rgba(0, 255, 255, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+        cursor: pointer;
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0) 50%
+        );
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .card:active {
+        background: rgba(0, 255, 255, 0.15);
+        border: 1.5px solid rgba(0, 255, 255, 0.4);
+        box-shadow: 
+            0 12px 40px rgba(0, 255, 255, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+        transform: translateY(-3px) scale(0.98);
+    }
+
+    @media (hover: hover) {
+        .card:hover {
+            background: rgba(0, 255, 255, 0.15);
+            border: 1.5px solid rgba(0, 255, 255, 0.4);
+            box-shadow: 
+                0 16px 48px rgba(0, 255, 255, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+            transform: translateY(-8px);
+        }
+    }
+
+    .card-title {
+        margin: 0;
+        font-size: clamp(16px, 5vw, 24px);
+        min-height: 30px;
+        color: white;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+    }
+
+    .card-subtitle {
+        margin: 10px 0 0 0;
+        font-size: clamp(12px, 3vw, 16px);
+        color: rgba(255, 255, 255, 0.8);
+        font-style: italic;
+        transition: all 0.3s ease;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .cards-container {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card {
+            width: 90vw;
+            min-width: 200px;
+        }
+
+        .header-content {
+            flex-direction: column;
+            gap: 15px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .start-button {
+            padding: 12px 40px;
+        }
+
+        .cards-container {
+            margin: 20px auto;
+        }
+
+        .card {
+            width: 100%;
+            max-width: calc(100vw - 20px);
+        }
+    }
+
+    /* Prevent scrolling issues */
+    body.fullscreen {
+        overflow: hidden;
+    }
+
+    /* Safe area support for notch devices */
+    @supports (padding: max(0px)) {
+        .header {
+            padding-top: max(15px, env(safe-area-inset-top));
+            padding-bottom: max(15px, env(safe-area-inset-bottom));
+        }
+
+        .cards-container {
+            padding-left: max(10px, env(safe-area-inset-left));
+            padding-right: max(10px, env(safe-area-inset-right));
+        }
+    }
+
+    /* Touch optimization */
+    button, .card {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    /* Prevent text selection on long press */
+    * {
+        -webkit-user-select: none;
+        -webkit-user-drag: none;
+        user-select: none;
+    }
+
+    .start-title, .card-title, .header-title, .start-button {
+        -webkit-user-select: text;
+        user-select: text;
+    }
+</style>
+</html>
