@@ -96,13 +96,6 @@
         let clickCount = 0;
         let cardClickCounts = {};
 
-        // Prevent default mobile behaviors
-        document.addEventListener('touchmove', function(e) {
-            if (e.target.closest('.card')) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-
         // Word by word typing effect
         function typeWordByWord(text, element, delay) {
             element.textContent = '';
